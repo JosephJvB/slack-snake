@@ -1,5 +1,18 @@
 # Me make snake robot for slack
 
+- https://api.slack.com/events
+- https://github.com/slackapi/python-slackclient
+- https://github.com/slackapi/python-slackclient/tree/master/tutorial
+
+### in prog
+- bot respond to command
+. bot ignore not recognized commands
+### then:
+- deploy to heroku
+### then:
+- create sql db
+- more complex game logic
+
 ### User Flow - requirements
 1. `/guesswho` @name
 2. somehow lookup jukebot: who added the song
@@ -19,7 +32,11 @@
 - Ideal: my bot responds with /whom, and parse JukeBot response
 - Block: I dont think JukeBot will respond to bot users
 - More likely: have to authenticate with JukeBot API to make /whom request
+- one workaround: my bot responds to `/whom @name` so I wait for jukebot to say: "Song was requested by x" if JukeBot x == /whom @name, user gets a point for their tally.
 
+
+# python notes
+`ctrl` + `d` to end pipenv shell
 
 # Side-Quest:
 - See: ~/Workspace/Journal/.bin/rename.py
