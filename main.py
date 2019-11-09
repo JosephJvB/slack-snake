@@ -2,7 +2,7 @@ import os
 import slack
 
 if not os.environ['BOT_TOKEN']:
-    print('NO BOT TOKEN FOUND')
+    print('========\nNO BOT TOKEN FOUND')
     print('Exiting...')
 else:
     @slack.RTMClient.run_on(event='message')
@@ -23,7 +23,7 @@ else:
         if should_respond:
             web_client.chat_postMessage(
                 channel=channel_id,
-                text=f'Whom?? It\'s me silly!!!! hahahaha',
+                text=f'Sick bro, nice hello world bro 😎',
                 # thread_ts=data['ts'] # can respond in thread
             )
         else:
@@ -35,4 +35,4 @@ else:
     slack_token = os.environ['BOT_TOKEN']
     rtm_client = slack.RTMClient(token=slack_token)
     rtm_client.start()
-    print('*****\nBOT UP\n******')
+    print('*****\nBOT UP\n*****')
