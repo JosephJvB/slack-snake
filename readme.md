@@ -10,7 +10,9 @@
 ### then:
 - deploy to heroku
 ### then:
+- test adding reactions
 - create sql db
+    - maybe save rows: [id, user_id, track, whom_id]
 - more complex game logic
 
 ### User Flow - requirements
@@ -37,6 +39,9 @@
 
 # python notes
 `ctrl` + `d` to end pipenv shell
+- dicts, {}, dictVar['dictproperty']
+- list, [], listVar[idx]
+- class, class x:, class.property, class.method
 
 # Side-Quest:
 - See: ~/Workspace/Journal/.bin/rename.py
