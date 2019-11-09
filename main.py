@@ -35,3 +35,4 @@ else:
     slack_token = os.environ['BOT_TOKEN']
     rtm_client = slack.RTMClient(token=slack_token)
     rtm_client.start()
+    print('*****\nBOT UP\n******')
