@@ -13,7 +13,6 @@ class Bot:
         self.actual_user_id = None
         self.track = None
 
-    # get guesserId, guesseeId, and save payload to react to initial message
     def handle_whom_cmd(self, payload):
         data = payload['data']
         text = data['text']
@@ -24,8 +23,9 @@ class Bot:
         if not self.msg_payload and len(mentions) > 0:
             self.msg_payload = payload
             self.msg_user_id = user
-            self.guess_user_id = mentions[0]
-            print(f'guess received: text={text}, guesser={user}, guessed-user={mentions[0]}')
+            self.guess_user_id = self.get_user_id(mentions[0])
+            print(f'guess received: text={text}, guesser={user}, guessed-user={self.guess_user_id}')
+
             payload['web_client'].reactions_add(
                 name='speech_balloon',
                 channel=data['channel'],
@@ -38,8 +38,7 @@ class Bot:
         text = data['text']
 
         if self.msg_user_id and self.guess_user_id and text.startswith('This track,'):
-            # eg text: '/whom <@UD51HSESC|joe>'
-            self.actual_user_id = text.split('<@')[1].split('|')[0]
+            self.actual_user_id = self.get_user_id(text)
             self.track = text.split('This track,')[1].split(', was last requested')[0]
             self.respond()
         return
@@ -75,4 +74,8 @@ class Bot:
         self.guess_user_id = None
         self.actual_user_id = None
         self.track = None
+
+    # eg text: '/whom <@UD51HSESC|joe>'
+    def get_user_id(self, str):
+        return str.split('<@')[1].split('|')[0]
 
