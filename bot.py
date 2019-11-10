@@ -36,7 +36,8 @@ class Bot:
         text = data['text']
 
         if self.msg_user_id and self.guess_user_id and text.startswith('This track,'):
-            self.actual_user_id = text.split('<@')[1].replace('>', '')
+            # /whom <@UD51HSESC|joe>
+            self.actual_user_id = text.split('<@')[1].split('|')[0]
             self.track = text.split('This track,')[1].split(', was last requested')[0]
             self.respond()
         return
@@ -47,14 +48,17 @@ class Bot:
             # todo: randomly choose response from a set
             if success:
                 text = 'Correct!'
-                reaction = ':white_check_mark:'
+                reaction = 'white_check_mark'
             else:
                 text = 'Better luck next time!'
-                reaction = ':x:'
+                reaction = 'x'
 
             web_client = self.msg_payload['web_client']
             web_client.chat_postMessage(channel=os.environ['CHANNEL_ID'], text=text)
-            web_client.reactions_add(name=reaction)
+            web_client.reactions_add(
+                name=reaction,
+                channel=self.msg_payload['data']['channel'],
+                timestamp=self.msg_payload['data']['ts'])
         self.reset()
         return
 

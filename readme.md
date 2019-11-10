@@ -5,10 +5,12 @@
 - https://github.com/slackapi/python-slackclient/tree/master/tutorial
 
 ### in prog
-- bot respond to command
-. bot ignore not recognized commands
+- live test: problem with string:
+- `guess received: user=UD51HSESC, text=/whom <@UD51HSESC|joe>`
+- didnt expect that pipe character!!!!
+
 ### then:
-- deploy to heroku
+
 ### then:
 - test adding reactions
 - create sql db
