@@ -26,17 +26,19 @@ class Bot:
             self.msg_user_id = user
             self.guess_user_id = mentions[0]
             print(f'guess received: user={user}, text={text}')
-            # react with speech bubble: todo
+            payload['web_client'].reactions_add(
+                name='speech_balloon',
+                channel=data['channel'],
+                timestamp=data['ts'])
             Timer(5, self.reset).start() # reset after delay
         return
 
-    # if bot msg is /whom response, set actual_user_id and track
     def handle_bot_message(self, payload):
         data = payload['data']
         text = data['text']
 
         if self.msg_user_id and self.guess_user_id and text.startswith('This track,'):
-            # /whom <@UD51HSESC|joe>
+            # eg text: '/whom <@UD51HSESC|joe>'
             self.actual_user_id = text.split('<@')[1].split('|')[0]
             self.track = text.split('This track,')[1].split(', was last requested')[0]
             self.respond()
@@ -63,6 +65,10 @@ class Bot:
         return
 
     def reset(self):
+        # todo: remove all reactions if exist on self.msg_payload
+        # web_client.reactions_get(channel, timestamp)
+        # check response and remove all reactions!
+        # https://api.slack.com/methods/reactions.get
         print('\nRESETTING\n')
         self.msg_payload = None
         self.msg_user_id = None
