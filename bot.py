@@ -25,7 +25,7 @@ class Bot:
             self.msg_payload = payload
             self.msg_user_id = user
             self.guess_user_id = mentions[0]
-            print(f'guess received: user={user}, text={text}')
+            print(f'guess received: text={text}, guesser={user}, guessed-user={mentions[0]}')
             payload['web_client'].reactions_add(
                 name='speech_balloon',
                 channel=data['channel'],
