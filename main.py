@@ -11,7 +11,13 @@ else:
     bot = Bot()
     @slack.RTMClient.run_on(event='message')
     def on_message(**payload):
-        bot.handle_message(payload)
+        data = payload['data']
+        if data['channel'] != os.environ['CHANNEL_ID']:
+            return
+        elif data.get('bot_profile'):
+            bot.handle_bot_message(payload)
+        elif data['text'].startswith(os.environ['WHOM_CMD']):
+            bot.handle_whom_cmd(payload)
         return
 
     slack.RTMClient(token=token).start()

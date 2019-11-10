@@ -1,4 +1,5 @@
 import os
+from threading import Timer
 
 who = os.environ['WHOM_CMD']
 token = os.environ['BOT_TOKEN']
@@ -6,83 +7,64 @@ token = os.environ['BOT_TOKEN']
 class Bot:
     def __init__(self):
         print('*****\nbot up\n*****')
+        self.msg_payload = None
         self.guesser_id = None
         self.whomst_id = None
         self.track = None
 
     # Need to look up what pythons switch statements are like, could be the buzz!!
-    def handle_message(self, payload):
-        print('hi')
-        # payload properties
-        web_client = payload['web_client']
+    def handle_whom_cmd(self, payload):
         data = payload['data']
-        if data.get('bot_profile'):
-            # self.handle_bot_message(payload) # not ready!
-            return
-
-        print('==========\n')
-        print('Message received:')
-        print(data)
-        # data properies
-        channel_id = data['channel']
-        content = data['text']
+        text = data['text']
         user = data['user']
-        # rtm_client = payload['rtm_client'] # not using rtm_client to respond? Random but sure, you're the boss
-        #if 'Hello' in data.get('text', []): # looks like you can try to get a property, and provide a default value, nice!
-        is_channel = channel_id == os.environ['CHANNEL_ID']
-        is_whom = content.lower().startswith(who) and len(content.split(' ')) > 1
-        is_safe = self.whomst_id == None
-        mention = [i for i in content.split(' ') if i.startswith('<@') and i.endswith('>')]
 
-        if is_channel and is_whom and is_safe and mention[0]:
+        mentions = [i for i in text.split(' ') if i.startswith('<@') and i.endswith('>')]
+
+        if not self.msg_payload and len(mentions) > 0:
+            self.msg_payload = payload
             self.guesser_id = user
-            self.whomst_id = mention[0]
-            # set timeout and reset these propeties
-            web_client.chat_postMessage(
-                channel=channel_id,
-                text='Sick bro, nice hello world bro 😎',
-                # thread_ts=data['ts'] # can respond in thread
-            )
-            # react with speech bubble
-        else:
-            print('Not respond:')
-            print(f'Channel: {channel_id}, text: {content.lower()}')
-            print('\n')
+            self.whomst_id = mentions[0]
+            print(f'guess received: user={user}, text={text}')
+            # react with speech bubble: todo
+            Timer(5, self.reset).start() # reset after delay
+
         return
 
     def handle_bot_message(self, payload):
         web_client = payload['web_client']
         data = payload['data']
         channel_id = data['channel']
-        content = data['text']
-        success = False
+        text = data['text']
         msg_text = ''
 
-        if self.guesser_id and self.whomst_id and content.startswith('This track,'):
-            whomst = content.split('<@')[1].replace('>', '')
-            if whomst == self.whomst_id:
-                success = True
-                print('=====\nGUESSED')
-                self.track = content.split('This track,')[1].split(', was last requested')[0]
-                print(self.guesser_id, self.whomst_id, self.track)
-                msg_text = f'<@{self.guesser_id}> You are correct! {self.track} was added by <@{self.whomst_id}>'
-                # do some database operation to save success
-            else:
-                msg_text ='Bad guess!'
-
-            # if success, react check, else react cross
-            # web_client.reactions_add(
-            #     channel=channel_id,
-            #     name='thumbsup',
-            # )
-            web_client.chat_postMessage(
-                channel=channel_id,
-                text=msg_text,
-            )
-            self.reset()
+        if not self.guesser_id or not self.whomst_id or not text.startswith('This track,'):
+            # cases: bot didnt respond in time OR track added in spotify direct
+            # remove pending speechbubble reaction from initial message using self.msg_payload
             return
 
+        whomst = text.split('<@')[1].replace('>', '')
+        if whomst == self.whomst_id:
+            self.track = text.split('This track,')[1].split(', was last requested')[0]
+            msg_text = 'Correct!'
+            # do database operation to save success
+        else:
+            msg_text ='Bad guess!'
+
+        # if success, react check, else react cross
+        # web_client.reactions_add(
+        #     channel=channel_id,
+        #     name='thumbsup',
+        # )
+        web_client.chat_postMessage(
+            channel=channel_id,
+            text=msg_text,
+        )
+        self.reset()
+        return
+
     def reset(self):
+        print('\nRESETTING\n')
+        self.msg_payload = None
         self.whomst_id = None
         self.guesser_id = None
         self.track = None
