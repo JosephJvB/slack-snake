@@ -37,9 +37,10 @@ class Bot:
         data = payload['data']
         text = data['text']
 
-        if self.msg_user_id and self.guess_user_id and text.startswith('This track,'):
+        if self.msg_user_id and self.guess_user_id and text.startswith(':microphone: This track,'):
             self.actual_user_id = self.get_user_id(text)
-            self.track = text.split('This track,')[1].split(', was last requested')[0]
+            self.track = text.split('This track, ')[1].split(', was last requested')[0]
+            print(f'bot response received:, actual={self.actual_user_id}, track={self.track}')
             self.respond()
         return
 
