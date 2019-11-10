@@ -12,7 +12,8 @@ else:
     @slack.RTMClient.run_on(event='message')
     def on_message(**payload):
         data = payload['data']
-        if data['channel'] != os.environ['CHANNEL_ID']:
+        print('@ on_message', data)
+        if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:
             return
         elif data.get('bot_profile'):
             bot.handle_bot_message(payload)

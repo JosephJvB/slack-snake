@@ -53,3 +53,14 @@ Github then said that the repo was LOLCODE was the main language used
 If you ever wanna moonlight as being a ${language} developer, just push a huge file and label it with the ${language.fileExtension} extension.
 OK only works for some languages: lolcode is one.
 tried for rust and go, but I think for rust and go, github has better language "recognition" (bro you got some AI going on bro?) and neither of those really worked
+
+
+
+
+
+error:
+```
+2019-11-10T20:45:08.206195+00:00 app[worker.1]: File "./main.py", line 19, in on_message
+2019-11-10T20:45:08.207561+00:00 app[worker.1]: elif data['text'].startswith(os.environ['WHOM_CMD']):
+2019-11-10T20:45:08.207731+00:00 app[worker.1]: KeyError: 'text'
+```
