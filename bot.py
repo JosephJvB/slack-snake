@@ -22,12 +22,12 @@ class Bot:
         text = data['text']
         user = data['user']
 
-        mentions = [i for i in text.split(' ') if i.startswith('<@') and i.endswith('>')]
+        msg_args = text.split(' ')
 
-        if not self.msg_payload and len(mentions) > 0:
+        if not self.msg_payload and len(msg_args) > 0:
             self.msg_payload = payload
             self.msg_user_id = user
-            self.guess_user_id = self.get_user_id(mentions[0])
+            self.guess_user_id = msg_args[0]
             print(f'guess received: text={text}, guesser={user}, guessed-user={self.guess_user_id}')
 
             payload['web_client'].reactions_add(
@@ -43,7 +43,7 @@ class Bot:
         text = data['text']
 
         if self.msg_user_id and self.guess_user_id and text.startswith(':microphone: This track,'):
-            self.actual_user_id = self.get_user_id(text)
+            self.actual_user_id = text.split('was last requested by ')[1]
             self.track = text.split('This track, ')[1].split(', was last requested')[0]
             print(f'bot response received:, actual={self.actual_user_id}, track={self.track}')
             self.respond()
@@ -63,7 +63,7 @@ class Bot:
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'])
             if success:
-                Records.create(user=self.guess_user_id, track=self.track)
+                Records.create(user=self.msg_user_id, track=self.track)
         return
 
     def reset(self):
@@ -78,10 +78,6 @@ class Bot:
         self.guess_user_id = None
         self.actual_user_id = None
         self.track = None
-
-    # eg text: '/whom <@UD51HSESC|joe>'
-    def get_user_id(self, str):
-        return str.split('<@')[1].split('|')[0]
 
     def get_response_text(self, success):
         win_msgs = ['Great job!', 'Correct!', 'Mind reader!', 'Muy epico!', 'Tres bien, mon ami!']
