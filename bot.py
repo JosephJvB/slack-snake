@@ -93,7 +93,8 @@ class Bot:
             timestamp=payload['data']['ts'])
         query_results = (Records.select(Records.user, fn.COUNT('*')
             .alias('count'))
-            .group_by(Records.user))
+            .group_by(Records.user)
+            .order_by(fn.COUNT('*').alias('count').desc()))
         if len(query_results) == 0:
             text = 'Nobody has any points yet!'
         else:
