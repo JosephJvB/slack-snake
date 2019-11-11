@@ -2,6 +2,7 @@ import os
 import random
 from threading import Timer
 from db import Records
+from peewee import fn
 
 who = os.environ['WHOM_CMD']
 token = os.environ['BOT_TOKEN']
@@ -84,3 +85,22 @@ class Bot:
         l = win_msgs if success else lose_msgs
         return random.choice(l)
 
+    def handle_leaderboard_cmd(self, payload):
+        web_client = payload['web_client']
+        web_client.reactions_add(
+            name='speech_balloon',
+            channel=payload['data']['channel'],
+            timestamp=payload['data']['ts'])
+        query_results = (Records.select(Records.user, fn.COUNT('*')
+            .alias('count'))
+            .group_by(Records.user))
+        if len(query_results) == 0:
+            text = 'Nobody has any points yet!'
+        else:
+            text = '*Leaderboard:*\n'
+            for r in query_results[:3]:
+                text += f'<@{r.user}>: *{r.count}*\n'
+        web_client.chat_postMessage(
+            channel=payload['data']['channel'],
+            text=text)
+        return

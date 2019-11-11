@@ -19,6 +19,8 @@ else:
             bot.handle_bot_message(payload)
         elif data['text'].startswith(os.environ['WHOM_CMD']):
             bot.handle_whom_cmd(payload)
+        elif data['text'].startswith(os.environ['LB_CMD']):
+            bot.handle_leaderboard_cmd(payload)
         return
 
     slack.RTMClient(token=token).start()
