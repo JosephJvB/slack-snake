@@ -1,13 +1,11 @@
 import os
 import peewee
 
-if os.environ['ENV'] != 'dev':
-    db = peewee.MySQLDatabase(os.environ['CLEARDB_DATABASE_URL'])
-else:
-    db = peewee.MySQLDatabase(
+db = peewee.MySQLDatabase(
     os.environ['DB_NAME'],
     user=os.environ['DB_USER'],
-    passwd=os.environ['DB_PASS'])
+    passwd=os.environ['DB_PASS'],
+    host=os.environ['DB_HOST'])
 
 class Base(peewee.Model):
     class Meta:
