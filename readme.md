@@ -4,18 +4,8 @@
 - https://github.com/slackapi/python-slackclient
 - https://github.com/slackapi/python-slackclient/tree/master/tutorial
 
-### in prog
-- live test: problem with string:
-- `guess received: user=UD51HSESC, text=/whom <@UD51HSESC|joe>`
-- didnt expect that pipe character!!!!
-
-### then:
-
-### then:
-- test adding reactions
-- create sql db
-    - maybe save rows: [id, user_id, track, whom_id]
-- more complex game logic
+### todo:
+- prevent user typing /whom, then /whom @answer somehow..
 
 ### User Flow - requirements
 1. `/guesswho` @name
@@ -30,13 +20,6 @@
 - Python
 - Heroku
 - SQL database to store tallys
-
-### Blocks
-- How the hecka am I going to lookup from my bot, which user added the current song to jukebot
-- Ideal: my bot responds with /whom, and parse JukeBot response
-- Block: I dont think JukeBot will respond to bot users
-- More likely: have to authenticate with JukeBot API to make /whom request
-- one workaround: my bot responds to `/whom @name` so I wait for jukebot to say: "Song was requested by x" if JukeBot x == /whom @name, user gets a point for their tally.
 
 
 # python notes

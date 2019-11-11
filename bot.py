@@ -24,10 +24,10 @@ class Bot:
 
         msg_args = text.split(' ')
 
-        if not self.msg_payload and len(msg_args) > 0:
+        if not self.msg_payload and len(msg_args) > 1:
             self.msg_payload = payload
             self.msg_user_id = user
-            self.guess_user_id = msg_args[0]
+            self.guess_user_id = msg_args[1]
             print(f'guess received: text={text}, guesser={user}, guessed-user={self.guess_user_id}')
 
             payload['web_client'].reactions_add(
