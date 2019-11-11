@@ -1,5 +1,7 @@
 import os
+import random
 from threading import Timer
+from db import Records
 
 who = os.environ['WHOM_CMD']
 token = os.environ['BOT_TOKEN']
@@ -47,20 +49,16 @@ class Bot:
     def respond(self):
         if self.msg_payload and self.msg_user_id and self.guess_user_id and self.actual_user_id and self.track:
             success = self.guess_user_id == self.actual_user_id
-            # todo: randomly choose response from a set
-            if success:
-                text = 'Correct!'
-                reaction = 'white_check_mark'
-            else:
-                text = 'Better luck next time!'
-                reaction = 'x'
-
             web_client = self.msg_payload['web_client']
-            web_client.chat_postMessage(channel=os.environ['CHANNEL_ID'], text=text)
+            web_client.chat_postMessage(
+                channel=os.environ['CHANNEL_ID'],
+                text=self.get_response_text(success))
             web_client.reactions_add(
-                name=reaction,
+                name= 'white_check_mark' if success else 'x',
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'])
+            if success:
+                Records.create(user=self.guess_user_id, track=self.track)
         self.reset()
         return
 
@@ -79,4 +77,10 @@ class Bot:
     # eg text: '/whom <@UD51HSESC|joe>'
     def get_user_id(self, str):
         return str.split('<@')[1].split('|')[0]
+
+    def get_response_text(self, success):
+        win_msgs = ['Great job!', 'Correct!', 'Mind reader!', 'Muy epico!', 'Tres bien, mon ami!']
+        lose_msgs = ['Better luck next time', 'No way!', 'Not even close!', 'That\'s a no from me', 'Negative on that one']
+        l = win_msgs if success else lose_msgs
+        return random.choice(l)
 
