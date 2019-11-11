@@ -2,7 +2,7 @@ import os
 import peewee
 
 if os.environ['ENV'] != 'dev':
-    db = peewee.MySQLDatabase(os.environ(['CLEARDB_DATABASE_URL']))
+    db = peewee.MySQLDatabase(os.environ['CLEARDB_DATABASE_URL'])
 else:
     db = peewee.MySQLDatabase(
     os.environ['DB_NAME'],
