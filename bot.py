@@ -15,6 +15,7 @@ class Bot:
         self.guess_user_id = None
         self.actual_user_id = None
         self.track = None
+        self.locked = False
 
     def handle_whom_cmd(self, payload):
         data = payload['data']
@@ -33,10 +34,11 @@ class Bot:
                 name='speech_balloon',
                 channel=data['channel'],
                 timestamp=data['ts'])
-            Timer(5, self.reset).start() # reset after delay
+            Timer(5, self.reset).start()
         return
 
     def handle_bot_message(self, payload):
+        self.locked = True
         data = payload['data']
         text = data['text']
 
@@ -45,6 +47,8 @@ class Bot:
             self.track = text.split('This track, ')[1].split(', was last requested')[0]
             print(f'bot response received:, actual={self.actual_user_id}, track={self.track}')
             self.respond()
+        self.locked = False
+        self.reset()
         return
 
     def respond(self):
@@ -60,10 +64,10 @@ class Bot:
                 timestamp=self.msg_payload['data']['ts'])
             if success:
                 Records.create(user=self.guess_user_id, track=self.track)
-        self.reset()
         return
 
     def reset(self):
+        if self.locked: return
         # todo: remove all reactions if exist on self.msg_payload
         # web_client.reactions_get(channel, timestamp)
         # check response and remove all reactions!
