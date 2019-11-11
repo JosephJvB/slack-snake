@@ -8,6 +8,8 @@ pylint = "*"
 
 [packages]
 slackclient = "*"
+peewee = "*"
+pymysql = "*"
 
 [requires]
 python_version = "3.7"
