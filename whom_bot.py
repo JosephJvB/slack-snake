@@ -48,7 +48,7 @@ class Whom_Bot(Base_Bot):
         if self.msg_user_id and self.guess_user_id and self.actual_user_id and self.current_track:
             success = self.guess_user_id == self.actual_user_id
             t = self.get_response_text(success)
-            r = 'white_check_mark' if success else 'x',
+            r = 'white_check_mark' if success else 'x'
             self.remove_react('speech_balloon')
             self.add_react(r)
             self.post_msg(t)
