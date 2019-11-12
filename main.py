@@ -11,6 +11,7 @@ if not token:
 else:
     whom_bot = Whom_Bot()
     leaderboard_bot = Leaderboard_Bot()
+
     @slack.RTMClient.run_on(event='message')
     def on_message(**payload):
         data = payload['data']

@@ -28,10 +28,10 @@ class Whom_Bot(Base_Bot):
         return
 
     def handle_bot_message(self, text):
-        self.locked = True
-
         if not text.startswith(':microphone: This track,'):
             return
+
+        self.locked = True
         # one guess per track
         track = text.split('This track, ')[1].split(', was last requested')[0]
         if track != self.current_track:
