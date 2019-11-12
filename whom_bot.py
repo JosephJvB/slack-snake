@@ -17,11 +17,10 @@ class Whom_Bot(Base_Bot):
 
     def handle_whom_cmd(self, p):
         self.set_msg_payload(p)
-        data = self.msg_payload['data']
-        msg_args = data['text'].split(' ')
+        msg_args = p['data']['text'].split(' ')
 
-        if not self.msg_payload and len(msg_args) > 1:
-            self.msg_user_id = data['user']
+        if not self.msg_user_id and len(msg_args) > 1:
+            self.msg_user_id = p['data']['user']
             self.guess_user_id = msg_args[1]
 
             self.add_react('speech_balloon')

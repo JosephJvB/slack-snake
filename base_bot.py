@@ -11,7 +11,6 @@ class Base_Bot(object):
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'],
                 text=text)
-            self.msg_payload['web_client']
         return
 
     def add_react(self, name):
@@ -20,7 +19,6 @@ class Base_Bot(object):
                 name=name,
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'])
-            self.msg_payload['web_client']
         return
 
     def remove_react(self, name):
@@ -29,5 +27,4 @@ class Base_Bot(object):
                 name=name,
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'])
-            self.msg_payload['web_client']
         return
