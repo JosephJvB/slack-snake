@@ -11,7 +11,7 @@ class Leaderboard_Bot(Base_Bot):
         super(Leaderboard_Bot, self).__init__()
 
     def handle_leaderboard_cmd(self, p):
-        self.set_msg_payload(p)
+        self.msg_payload = p
         self.add_react('speech_balloon')
         query_results = (Records.select(Records.user, fn.COUNT('*')
             .alias('count'))

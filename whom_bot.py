@@ -16,10 +16,10 @@ class Whom_Bot(Base_Bot):
         self.current_track = None
 
     def handle_whom_cmd(self, p):
-        self.set_msg_payload(p)
+        self.msg_payload = p
         msg_args = p['data']['text'].split(' ')
 
-        if not self.msg_user_id and len(msg_args) > 1:
+        if not self.msg_payload and len(msg_args) > 1:
             self.msg_user_id = p['data']['user']
             self.guess_user_id = msg_args[1]
 
@@ -63,7 +63,7 @@ class Whom_Bot(Base_Bot):
         # mayb need to get reactions before removing..if we get errors
         # https://api.slack.com/methods/reactions.get
         print('\nRESETTING\n')
-        self.set_msg_payload(None)
+        self.msg_payload = None
         self.msg_user_id = None
         self.guess_user_id = None
         self.actual_user_id = None

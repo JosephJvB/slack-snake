@@ -2,9 +2,6 @@ class Base_Bot(object):
     def __init__(self):
         self.msg_payload = None
 
-    def set_msg_payload(self, p):
-        self.msg_payload = p
-
     def post_msg(self, text):
         if self.msg_payload is not None:
             self.msg_payload['web_client'].chat_postMessage(
