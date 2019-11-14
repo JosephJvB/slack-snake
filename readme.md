@@ -7,14 +7,13 @@
 ### todo:
 - prevent user typing /whom, then /whom @answer somehow..
 
-### User Flow - requirements
-1. `/guesswho` @name
-2. somehow lookup jukebot: who added the song
-3. if name matches the user who added song to jukebot, guesser-tally++
-- Mitches idea:
-1. `/guesswho` @name
-2. my bot provides a poll, some way for users to guess which user has added the song
-3. after time interval, lookup /whom and show which users were the winners
+### User Flow
+- ideal: make it more like AirNZ quiz
+- Track starts
+- Whombot posts guess options: who added the track (or what the name of the track is)
+- Everyone can respond via reacts
+- Points are given to users at the end of the track
+- Bot posts correct answer
 
 ### Tech Specs
 - Python
