@@ -8,12 +8,13 @@
 - prevent user typing /whom, then /whom @answer somehow..
 
 ### User Flow
-- ideal: make it more like AirNZ quiz
-- Track starts
-- Whombot posts guess options: who added the track (or what the name of the track is)
-- Everyone can respond via reacts
-- Points are given to users at the end of the track
-- Bot posts correct answer
+1. make it more like AirNZ quiz
+    - Track starts
+    - Whombot posts guess options: who added the track (or what the name of the track is)
+    - Everyone can respond via reacts
+    - Points are given to users at the end of the track
+    - Bot posts correct answer
+2. stuff quiz another thing i could try copy?
 
 ### Tech Specs
 - Python
