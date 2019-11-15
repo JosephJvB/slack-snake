@@ -17,11 +17,11 @@ else:
         data = payload['data']
         print('@ on_message', data)
 
-        if data['text'] == 'yeet':
-            whom_bot.yeet(payload)
+        if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:
             return
 
-        if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:
+        if data['text'] == os.environ('POINTS_CMD'):
+            leaderboard_bot.handle_points_cmd(payload)
             return
 
         if data.get('bot_profile'):
