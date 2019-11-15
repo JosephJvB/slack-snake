@@ -30,7 +30,8 @@ d = {
 def main():
     for i in l:
         n = d[i]
-        Records.update(user=n).where(Records.user==i)
+        q = Records.update(user=n).where(Records.user==i)
+        q.execute()
         print(n, 'updated')
     print('done')
         # update user = n where user = i
