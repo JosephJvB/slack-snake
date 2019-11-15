@@ -20,7 +20,7 @@ else:
         if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:
             return
 
-        if data['text'] == os.environ('POINTS_CMD'):
+        if data['text'] == os.environ['POINTS_CMD']:
             leaderboard_bot.handle_points_cmd(payload)
             return
 
