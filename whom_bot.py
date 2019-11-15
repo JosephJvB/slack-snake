@@ -88,8 +88,6 @@ class Whom_Bot(Base_Bot):
             'UMJ4K7HNK'
             'UFCSXUJKW'
         ]
-        for i in l:
-            t = f'<@{i}>'
-            self.post_msg(t)
-        print(t)
-        print('done')
+        res = payload['web_client'].users_list(limit=100)
+        print(res)
+        self.post_msg(res)
