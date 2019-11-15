@@ -73,39 +73,3 @@ class Whom_Bot(Base_Bot):
         lose_msgs = ['Better luck next time', 'No way!', 'Not even close!', 'That\'s a no from me', 'Negative on that one']
         l = win_msgs if success else lose_msgs
         return random.choice(l)
-
-    def yeet(self, payload):
-        self.msg_payload = payload
-        l2 = [
-            'andrewb',
-            'adam',
-            'grant-jba',
-            'marc',
-            'mitchell',
-            'sujay',
-            'joe',
-            'quentin',
-            'alexb',
-            'vladimir',
-            'russeld.baoy',
-        ]
-        d2 = {
-            'andrewb': 'UMDEYJM1D',
-            'adam': 'UDSABB9SL',
-            'grant-jba': 'U158JB91N',
-            'marc': 'UNYD614SV',
-            'mitchell': 'UCPQU1V60',
-            'sujay': 'UJM0SM43X',
-            'joe': 'UD51HSESC',
-            'quentin': 'UK8GENM1P',
-            'alexb': 'U7EKZUNGZ',
-            'vladimir': 'UMJ4K7HNK',
-            'russeld.baoy': 'UFCSXUJKW',
-        }
-        for name in l2:
-            i = d2[name]
-            real = self.get_user_name(i)
-            q = Records.update(user=real).where(Records.user==name)
-            q.execute()
-            print(name, real, 'updated')
-        print('done')

@@ -5,6 +5,19 @@ from peewee import fn
 
 from base_bot import Base_Bot
 
+# emoji_dict = {
+#     0: ':one:',
+#     1: ':two:',
+#     2: ':three:',
+#     3: ':four:',
+#     4: ':five:',
+#     5: ':six:',
+#     6: ':seven:',
+#     7: ':eight:',
+#     8: ':nine:',
+#     9: ':keycap_ten:',
+# }
+
 class Leaderboard_Bot(Base_Bot):
     def __init__(self):
         super(Leaderboard_Bot, self).__init__()
@@ -21,22 +34,9 @@ class Leaderboard_Bot(Base_Bot):
         else:
             text = '*Leaderboard:*\n'
             for i, r in enumerate(query_results[:10]):
-                text += f'{self.get_emoji(i)} {r.user}: *{r.count}*\n'
+                text += f'*{i + 1}* {r.user}: *{r.count}*\n'
         self.remove_react('speech_balloon')
         self.post_msg(text)
-        return
-
-    def get_emoji(self, n):
-        if n == 0: return ':one:'
-        if n == 1: return ':two:'
-        if n == 2: return ':three:'
-        if n == 3: return ':four:'
-        if n == 4: return ':five:'
-        if n == 5: return ':six:'
-        if n == 6: return ':seven:'
-        if n == 7: return ':eight:'
-        if n == 8: return ':nine:'
-        if n == 9: return ':keycap_ten:'
         return
 
     def handle_points_cmd(self, p):
