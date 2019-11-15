@@ -1,17 +1,17 @@
 from db import Records
 
 l = [
-    'UMDEYJM1D' # andrewb
-    'UDSABB9SL' # adam
-    'U158JB91N' # grant-jba
-    'UNYD614SV' # marc
-    'UCPQU1V60' # mitchell
-    'UJM0SM43X' # sujay
-    'UD51HSESC' # joe
-    'UK8GENM1P' # quentin
-    'U7EKZUNGZ' # alexb
-    'UMJ4K7HNK' # vladimir
-    'UFCSXUJKW' # russeld.baoy
+    'UMDEYJM1D', # andrewb
+    'UDSABB9SL', # adam
+    'U158JB91N', # grant-jba
+    'UNYD614SV', # marc
+    'UCPQU1V60', # mitchell
+    'UJM0SM43X', # sujay
+    'UD51HSESC', # joe
+    'UK8GENM1P', # quentin
+    'U7EKZUNGZ', # alexb
+    'UMJ4K7HNK', # vladimir
+    'UFCSXUJKW', # russeld.baoy
 ]
 d = {
     'UMDEYJM1D': 'andrewb',
