@@ -76,10 +76,10 @@ class Whom_Bot(Base_Bot):
     def yeet(self, payload):
         self.msg_payload = payload
         l = [
-            'UMDEYJM1D'
-            'UDSABB9SL'
-            'U158JB91N'
-            'UNYD614SV'
+            'UMDEYJM1D' # ?
+            'UDSABB9SL' # adam
+            'U158JB91N' # grant
+            'UNYD614SV' # ?
             'UCPQU1V60'
             'UJM0SM43X'
             'UD51HSESC'
@@ -88,7 +88,7 @@ class Whom_Bot(Base_Bot):
             'UMJ4K7HNK'
             'UFCSXUJKW'
         ]
-        res = payload['web_client'].users_list(limit=100)
+        res = payload['web_client'].users_list(limit=200)
         lis = [{
             'id': x['id'],
             'dis': x['profile']['display_name'],
@@ -96,4 +96,4 @@ class Whom_Bot(Base_Bot):
         } for x in res['members']]
         import json
         print(lis)
-        self.post_msg(json.dumps(lis, indent=2))
+        self.post_msg(json.dumps(lis, indent=0))
