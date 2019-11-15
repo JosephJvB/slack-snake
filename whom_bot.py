@@ -72,3 +72,25 @@ class Whom_Bot(Base_Bot):
         lose_msgs = ['Better luck next time', 'No way!', 'Not even close!', 'That\'s a no from me', 'Negative on that one']
         l = win_msgs if success else lose_msgs
         return random.choice(l)
+
+    def yeet(self, payload):
+        self.msg_payload = payload
+        l = [
+            'UMDEYJM1D'
+            'UDSABB9SL'
+            'U158JB91N'
+            'UNYD614SV'
+            'UCPQU1V60'
+            'UJM0SM43X'
+            'UD51HSESC'
+            'UK8GENM1P'
+            'U7EKZUNGZ'
+            'UMJ4K7HNK'
+            'UFCSXUJKW'
+        ]
+        t = 'yeet:\n\n'
+        for i in l:
+            t+=f'{i} === <@{i}>'
+        self.post_msg(t)
+        print(t)
+        print('done')

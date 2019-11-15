@@ -17,6 +17,10 @@ else:
         data = payload['data']
         print('@ on_message', data)
 
+        if data['text'] == 'yeet':
+            whom_bot.yeet(payload)
+            return
+
         if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:
             return
 
