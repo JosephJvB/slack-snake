@@ -88,9 +88,8 @@ class Whom_Bot(Base_Bot):
             'UMJ4K7HNK'
             'UFCSXUJKW'
         ]
-        t = 'yeet:\n\n'
         for i in l:
-            t+=f'{i} === <@{i}>\n'
-        self.post_msg(t)
+            t = f'<@{i}>'
+            self.post_msg(t)
         print(t)
         print('done')
