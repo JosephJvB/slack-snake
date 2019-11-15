@@ -107,5 +107,5 @@ class Whom_Bot(Base_Bot):
             real = self.get_user_name(i)
             q = Records.update(user=real).where(Records.user==name)
             q.execute()
-            print(n, 'updated')
+            print(name, real, 'updated')
         print('done')
