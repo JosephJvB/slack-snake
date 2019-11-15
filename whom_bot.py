@@ -72,28 +72,3 @@ class Whom_Bot(Base_Bot):
         lose_msgs = ['Better luck next time', 'No way!', 'Not even close!', 'That\'s a no from me', 'Negative on that one']
         l = win_msgs if success else lose_msgs
         return random.choice(l)
-
-    def yeet(self, payload):
-        self.msg_payload = payload
-        l = [
-            'UMDEYJM1D' # ?
-            'UDSABB9SL' # adam
-            'U158JB91N' # grant
-            'UNYD614SV' # ?
-            'UCPQU1V60'
-            'UJM0SM43X'
-            'UD51HSESC'
-            'UK8GENM1P'
-            'U7EKZUNGZ'
-            'UMJ4K7HNK'
-            'UFCSXUJKW'
-        ]
-        res = payload['web_client'].users_list(limit=200)
-        lis = [{
-            'id': x['id'],
-            'dis': x['profile']['display_name'],
-            'real': x['profile']['real_name'],
-        } for x in res['members']]
-        import json
-        print(lis)
-        self.post_msg(json.dumps(lis, indent=0))
