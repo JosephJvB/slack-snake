@@ -5,7 +5,10 @@
 - https://github.com/slackapi/python-slackclient/tree/master/tutorial
 
 ### todo:
-- prevent user typing /whom, then /whom @answer somehow..
+- Stop @ing people
+    1. data migration, map user ids to real user names
+    2. save real user names
+    3. yah yeet yah
 
 ### User Flow
 1. make it more like AirNZ quiz
