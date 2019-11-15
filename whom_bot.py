@@ -54,7 +54,8 @@ class Whom_Bot(Base_Bot):
             self.post_msg(t)
 
             if success:
-                Records.create(user=self.msg_user_id, track=self.current_track)
+                u = self.get_user_name(self.msg_user_id)
+                Records.create(user=u, track=self.current_track)
         return
 
     def reset(self):

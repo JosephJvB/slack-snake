@@ -31,3 +31,10 @@ class Base_Bot(object):
                 channel=self.msg_payload['data']['channel'],
                 timestamp=self.msg_payload['data']['ts'])
         return
+
+    def get_user_name(self, user_id):
+        if self.msg_payload is None:
+            print('get_user: msg_payload not set!')
+        else:
+            res = self.msg_payload['web_client'].users_info(user=user_id)
+            return res['user']['real_name']
