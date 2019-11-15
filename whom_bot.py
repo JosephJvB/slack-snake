@@ -89,5 +89,11 @@ class Whom_Bot(Base_Bot):
             'UFCSXUJKW'
         ]
         res = payload['web_client'].users_list(limit=100)
-        print(res)
-        self.post_msg(res)
+        lis = [{
+            'id': x['id'],
+            'dis': x['profile']['display_name'],
+            'real': x['profile']['real_name'],
+        } for x in res['members']]
+        import json
+        print(lis)
+        self.post_msg(json.dumps(lis, indent=2))
