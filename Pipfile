@@ -8,6 +8,7 @@ pylint = "*"
 
 [packages]
 slackclient = "*"
+redis = "*"
 peewee = "*"
 pymysql = "*"
 
