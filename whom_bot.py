@@ -1,7 +1,5 @@
 import random
 from threading import Timer
-from db import Records
-from peewee import fn
 
 from base_bot import Base_Bot
 
@@ -55,7 +53,7 @@ class Whom_Bot(Base_Bot):
 
             if success:
                 u = self.get_user_name(self.msg_user_id)
-                Records.create(user=u, track=self.current_track)
+                self.redis.incr(u)
         return
 
     def reset(self):

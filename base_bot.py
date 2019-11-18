@@ -1,6 +1,14 @@
+import os
+import redis
+
 class Base_Bot(object):
     def __init__(self):
-        self.msg_payload = None
+        redis_url = os.getenv('REDIS_URL')
+        if redis_url:
+            self.redis = redis.Redis.from_url(redis_url)
+            self.msg_payload = None
+        else:
+            raise Exception('Redis env vars missing')
 
     def post_msg(self, text):
         if self.msg_payload is None:

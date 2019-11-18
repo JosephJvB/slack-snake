@@ -1,16 +1,8 @@
-import os
-import redis
-
 from base_bot import Base_Bot
 
 class Leaderboard_Bot(Base_Bot):
     def __init__(self):
         super(Leaderboard_Bot, self).__init__()
-        redis_url = os.getenv('REDIS_URL')
-        if redis_url:
-            self.redis = redis.Redis.from_url(redis_url)
-        else:
-            raise Exception('Redis env vars missing')
 
     def handle_leaderboard_cmd(self, p):
         self.msg_payload = p
