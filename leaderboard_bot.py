@@ -42,7 +42,7 @@ class Leaderboard_Bot(Base_Bot):
         scores = []
         for i, k in enumerate(keys):
             scores.append({
-                'name': k,
+                'name': k.decode('utf-8'),
                 'points': int(vals[i])
             })
         # sort by largest points value > smallest
