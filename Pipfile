@@ -9,8 +9,6 @@ pylint = "*"
 [packages]
 slackclient = "*"
 redis = "*"
-peewee = "*"
-pymysql = "*"
 
 [requires]
 python_version = "3.7"
