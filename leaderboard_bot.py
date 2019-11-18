@@ -21,7 +21,7 @@ class Leaderboard_Bot(Base_Bot):
         else:
             text = '*Leaderboard:*\n'
             for i, r in enumerate(lb):
-                text += f'*{i + 1}.* {r.name}: *{r.points}*\n'
+                text += f'*{i + 1}.* {r["name"]}: *{r["points"]}*\n'
         self.remove_react('speech_balloon')
         self.post_msg(text)
         return
