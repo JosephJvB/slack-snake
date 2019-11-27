@@ -7,8 +7,9 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
-slackclient = "*"
 redis = "*"
+requests = "*"
+slackclient = "*"
 
 [requires]
 python_version = "3.7"
