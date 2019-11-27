@@ -6,6 +6,8 @@
 	- !banger, my bot send command to Jukebot in DM and uses response to allocate point
 	- or: !banger, my bot send /whom in playlist and allocate point - ending whom round
 
+    https://github.com/ErikKalkoken/slackApiDoc
+
 ### TIL:
  - https://github.com/os/slacker: I can have my bot send commands with `chat.command`
     - user types !whom @user

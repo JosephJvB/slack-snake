@@ -1,5 +1,7 @@
 import random
 from threading import Timer
+import requests
+import os
 
 from base_bot import Base_Bot
 
@@ -11,6 +13,7 @@ class Whom_Bot(Base_Bot):
         self.actual_user_id = None
         self.locked = False
         self.current_track = None
+        self.banger_alert = False
 
     def handle_whom_cmd(self, p):
         msg_args = p['data']['text'].split(' ')
@@ -71,3 +74,13 @@ class Whom_Bot(Base_Bot):
         lose_msgs = ['Better luck next time', 'No way!', 'Not even close!', 'That\'s a no from me', 'Negative on that one']
         l = win_msgs if success else lose_msgs
         return random.choice(l)
+
+    def handle_banger_cmd(self, payload):
+        u = 'https://slack.com/api/chat.command'
+        d = {
+            'channel': os.getenv('CHANNEL_ID'),
+            'command': '/whom',
+            'token': os.getenv('LEGACY_TOKEN')
+        }
+        requests.post(u, d)
+        return
