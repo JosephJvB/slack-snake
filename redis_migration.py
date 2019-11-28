@@ -13,7 +13,7 @@ else:
     keys = redis.keys()
     for key in keys:
         k = key.decode('utf8')
-        if not k.startswith('user:') and not key.startswith('song:'):
+        if not k.startswith('user:') and not k.startswith('song:'):
             v = redis.get(k)
             redis.set('user:' + k, v)
             redis.delete(k)
