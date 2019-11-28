@@ -3,6 +3,7 @@ from base_bot import Base_Bot
 class Leaderboard_Bot(Base_Bot):
     def __init__(self):
         super(Leaderboard_Bot, self).__init__()
+        self.user_prefix = 'user:'
 
     def handle_leaderboard_cmd(self, p):
         self.msg_payload = p
@@ -22,14 +23,14 @@ class Leaderboard_Bot(Base_Bot):
         self.msg_payload = p
         self.add_react('speech_balloon')
         name = self.get_user_name(p['data']['user'])
-        p = int(self.redis.get(name))
+        p = int(self.redis.get(self.user_prefix+name))
         text = f'*{name}* is on *{p}* '
         text += 'point!' if p == 1 else 'points!'
         self.remove_react('speech_balloon')
         self.post_msg(text)
 
     def get_leaderboard(self):
-        keys = self.redis.keys()
+        keys = self.redis.keys('user:*')
         vals = self.redis.mget(keys)
         scores = []
         for i, k in enumerate(keys):
