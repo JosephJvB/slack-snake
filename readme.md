@@ -13,6 +13,9 @@
 	I can get my bot to call /whom in public playlist
 	OR: says marc, I can get my bot to message me - and jukebot will respond there? to try
 
+    banger release notes:
+    1. run redis migration
+
 ### TIL:
  - https://github.com/os/slacker: I can have my bot send commands with `chat.command`
     - user types !whom @user

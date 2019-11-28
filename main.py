@@ -15,9 +15,10 @@ else:
     banger_bot = Banger_Bot()
 
     CMDS = {
-        os.environ['POINTS_CMD']: leaderboard_bot.handle_points_cmd,
+        os.environ['POINTS_CMD']: leaderboard_bot.handle_user_points_cmd,
         os.environ['WHOM_CMD']: whom_bot.handle_whom_cmd,
-        os.environ['LB_CMD']: leaderboard_bot.handle_leaderboard_cmd,
+        os.environ['LB_CMD']: leaderboard_bot.handle_user_leaderboard_cmd,
+        os.environ['SONG_LB_CMD']: leaderboard_bot.handle_song_leaderboard_cmd,
         os.environ['BANGER_CMD']: banger_bot.handle_banger_cmd,
     }
 

@@ -4,22 +4,23 @@ class Leaderboard_Bot(Base_Bot):
     def __init__(self):
         super(Leaderboard_Bot, self).__init__()
         self.user_prefix = 'user:'
+        self.song_prefix = 'song:'
 
-    def handle_leaderboard_cmd(self, p):
+    def handle_user_leaderboard_cmd(self, p):
         self.msg_payload = p
         self.add_react('speech_balloon')
-        lb = self.get_leaderboard()
+        lb = self.get_leaderboard(self.user_prefix)
         if len(lb) == 0:
             text = 'Nobody has any points yet!'
         else:
             text = '*Leaderboard:*\n'
             for i, r in enumerate(lb):
-                text += f'*{i + 1}.* {r["name"]}: *{r["points"]}*\n'
+                text += f'*{i + 1}.* {r["key"]}: *{r["points"]}*\n'
         self.remove_react('speech_balloon')
         self.post_msg(text)
         return
 
-    def handle_points_cmd(self, p):
+    def handle_user_points_cmd(self, p):
         self.msg_payload = p
         self.add_react('speech_balloon')
         name = self.get_user_name(p['data']['user'])
@@ -28,14 +29,29 @@ class Leaderboard_Bot(Base_Bot):
         text += 'point!' if p == 1 else 'points!'
         self.remove_react('speech_balloon')
         self.post_msg(text)
+        return
 
-    def get_leaderboard(self):
-        keys = self.redis.keys('user:*')
+    def handle_song_leaderboard_cmd(self, p):
+        self.msg_payload = p
+        self.add_react('speech_balloon')
+        lb = self.get_leaderboard(self.song_prefix)
+        if len(lb) == 0:
+            text = 'No bangers detected!'
+        else:
+            text = '*Song Leaderboard:*\n'
+            for i, r in enumerate(lb):
+                text += f'*{i + 1}.* {r["key"]}: *{r["points"]}*\n'
+        self.remove_react('speech_balloon')
+        self.post_msg(text)
+        return
+
+    def get_leaderboard(self, pref):
+        keys = self.redis.keys(pref+'*')
         vals = self.redis.mget(keys)
         scores = []
         for i, k in enumerate(keys):
             scores.append({
-                'name': k.decode('utf-8'),
+                'key': k.decode('utf-8').split(pref)[1],
                 'points': int(vals[i])
             })
         # sort by largest points value > smallest
