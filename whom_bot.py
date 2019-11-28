@@ -1,4 +1,5 @@
 import random
+import os
 from threading import Timer
 
 from base_bot import Base_Bot
@@ -11,7 +12,7 @@ class Whom_Bot(Base_Bot):
         self.actual_user_id = None
         self.locked = False
         self.current_track = None
-        self.prefix = 'user:'
+        self.prefix = os.getenv('USER_PREFIX')
 
     def handle_whom_cmd(self, p):
         msg_args = p['data']['text'].split(' ')

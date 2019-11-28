@@ -1,10 +1,11 @@
+import os
 from base_bot import Base_Bot
 
 class Leaderboard_Bot(Base_Bot):
     def __init__(self):
         super(Leaderboard_Bot, self).__init__()
-        self.user_prefix = 'user:'
-        self.song_prefix = 'song:'
+        self.user_prefix = os.getenv('USER_PREFIX')
+        self.song_prefix = os.getenv('SONG_PREFIX')
 
     def handle_user_leaderboard_cmd(self, p):
         self.msg_payload = p

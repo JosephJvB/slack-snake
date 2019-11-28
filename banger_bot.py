@@ -6,8 +6,8 @@ from base_bot import Base_Bot
 class Banger_Bot(Base_Bot):
     def __init__(self):
         super(Banger_Bot, self).__init__()
-        self.song_prefix = 'song:'
-        self.user_prefix = 'user:'
+        self.song_prefix = os.getenv('SONG_PREFIX')
+        self.user_prefix = os.getenv('USER_PREFIX')
         self.banger = None
         self.banged_by = []
 
