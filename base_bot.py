@@ -48,12 +48,13 @@ class Base_Bot(object):
             res = self.msg_payload['web_client'].users_info(user=user_id)
             return res['user']['real_name']
 
-    def send_cmd(self, cmd, channel):
+    def send_cmd(self, cmd, channel, args=None):
         u = 'https://slack.com/api/chat.command'
         d = {
             'channel': channel,
             'command': cmd,
-            'token': os.getenv('LEGACY_TOKEN')
+            'token': os.getenv('LEGACY_TOKEN'),
+            'text': args
         }
         requests.post(u, d)
         return

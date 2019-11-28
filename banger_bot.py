@@ -18,11 +18,14 @@ class Banger_Bot(Base_Bot):
     
     def handle_dm_response(self, text):
         if text.startswith(':cry: Sorry,'):
-            self.send_cmd('/current track', os.getenv('DM_ID'))
+            self.send_cmd('/current', os.getenv('DM_ID'), 'track')
         elif text.startswith(':loud_sound: *Now playing...*\n'):
             self.case_now_playing(text)
         elif text.startswith(':microphone: This track,'):
             self.case_banger(text)
+        elif text.startswith(':loud_sound: *Your'):
+            self.post_msg(':zany: Jukebot says there\'s no song playing!')
+            self.msg_payload = None
         return
 
     def case_banger(self, text):
