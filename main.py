@@ -34,7 +34,7 @@ else:
                 return
 
             if data['channel'] == os.environ['DM_ID']:
-                banger_bot.handle_banger_response(t)
+                banger_bot.handle_dm_response(t)
                 return
 
         if not data.get('text') or data['channel'] != os.environ['CHANNEL_ID']:

@@ -1,5 +1,6 @@
 import os
 import redis
+import requests
 
 class Base_Bot(object):
     def __init__(self):
@@ -46,3 +47,13 @@ class Base_Bot(object):
         else:
             res = self.msg_payload['web_client'].users_info(user=user_id)
             return res['user']['real_name']
+
+    def send_cmd(self, cmd, channel):
+        u = 'https://slack.com/api/chat.command'
+        d = {
+            'channel': channel,
+            'command': cmd,
+            'token': os.getenv('LEGACY_TOKEN')
+        }
+        requests.post(u, d)
+        return
