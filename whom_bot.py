@@ -11,20 +11,19 @@ class Whom_Bot(Base_Bot):
         self.actual_user_id = None
         self.locked = False
         self.current_track = None
+        self.prefix = 'user:'
 
     def handle_whom_cmd(self, p):
         msg_args = p['data']['text'].split(' ')
-
         if not self.msg_payload and len(msg_args) > 1:
             self.msg_payload = p
             self.msg_user_id = p['data']['user']
             self.guess_user_id = msg_args[1]
             self.add_react('speech_balloon')
             Timer(5, self.reset).start()
-
         return
 
-    def handle_bot_message(self, text):
+    def handle_guess_response(self, text):
         if not text.startswith(':microphone: This track,'):
             return
 
@@ -53,7 +52,7 @@ class Whom_Bot(Base_Bot):
 
             if success:
                 u = self.get_user_name(self.msg_user_id)
-                self.redis.incr(u)
+                self.redis.incr(self.prefix + u)
         return
 
     def reset(self):
