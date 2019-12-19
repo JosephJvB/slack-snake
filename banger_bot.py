@@ -29,12 +29,13 @@ class Banger_Bot(Base_Bot):
         return
 
     def case_banger(self, text):
-        user_id = text.split('was last requested by ')[1].split('<@')[1].split('|')[0]
+        banger_owner = text.split('was last requested by ')[1].split('<@')[1].split('|')[0]
+        banger_fan = self.msg_payload['data']['user']
         # cant bang your own tracks
-        if user_id == self.msg_payload['data']['user']:
+        if banger_owner == banger_fan:
             self.post_msg('Please don\'t try to bang yourself at work...:nauseated_face:')
         else:
-            name = self.get_user_name(user_id)
+            name = self.get_user_name(banger_owner)
             track = text.split('This track, ')[1].split(', was last requested')[0]
             # reset on new track
             if name and track:
@@ -46,7 +47,7 @@ class Banger_Bot(Base_Bot):
                     self.post_msg(f':rotating_light: BANGER ALERT: "{track}" :rotating_light:')
                     self.redis.incr(self.song_prefix + track)
                     self.redis.incr(self.user_prefix + name)
-                    self.banged_by.append(name)
+                    self.banged_by.append(banger_fan)
                 else:
                     self.post_msg(':warning: No double dipping!')
         self.msg_payload = None
