@@ -29,8 +29,8 @@ class Bamboo_Bot(Base_Bot):
         return
 
     def request_sickleave_today(self, bamboo_user):
-        amount = '8' if datetime.hour > 12 else '4'
-        today = datetime.today().strfmt('%Y-%m-d')
+        amount = '8' if datetime.now().hour < 12 else '4'
+        today = datetime.today().strftime('%Y-%m-%d')
         sick_id = os.getenv('SICKLEAVE_ID')
         data = {
             'employee_id': bamboo_user['id'],
