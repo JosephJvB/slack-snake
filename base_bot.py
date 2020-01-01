@@ -42,11 +42,15 @@ class Base_Bot(object):
         return
 
     def get_user_name(self, user_id):
+        u = self.get_user_by_id(user_id)
+        return u['user']['real_name']
+
+    def get_user_by_id(self, user_id):
         if self.msg_payload is None:
             print('get_user: msg_payload not set!')
         else:
             res = self.msg_payload['web_client'].users_info(user=user_id)
-            return res['user']['real_name']
+            return res
 
     def send_cmd(self, cmd, channel, args=None):
         u = 'https://slack.com/api/chat.command'

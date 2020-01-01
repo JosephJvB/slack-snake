@@ -1,27 +1,24 @@
 # Me make snake robot for slack
 
-### todo
-- !banger : gives points to the person who had requested the song
-	- Ah problem...I cant query Jukebots db
-	- !banger, my bot send command to Jukebot in DM and uses response to allocate point
-	- or: !banger, my bot send /whom in playlist and allocate point - ending whom round
+### What are requirements? Must ask Jerome / Lauren
+- oops lauren resigned :<
+https://github.com/smeggingsmegger/PyBambooHR
+https://www.bamboohr.com/api/documentation/time_off.php
 
-    https://github.com/ErikKalkoken/slackApiDoc
+- user posts in slack !away (whatever command)
+    - get employee directory from bamboo
+    - use slack details(email?) to find employee id (or do some string match... idk) should be able to find by email
+    - construct data: employee_id, amount 8hrs, date=today, type=sick(assume sick idunno)
+    - post to bamboo
+    - confirm success
+    - might need lots of checks: are you this user? please run same command again with confirm, ya ya ya whatever
 
 
-	I cant get my bot to message jukebot
-	I can get my bot to call /whom in public playlist
-	OR: says marc, I can get my bot to message me - and jukebot will respond there? to try
 
-    banger release notes:
-    1. run redis migration
+https://github.com/ErikKalkoken/slackApiDoc
+- legacy tokens
+- legacy tokens make me send messages not as a bot but as myself!
+- I wonder what else i can do with that..
 
-### TIL:
- - https://github.com/os/slacker: I can have my bot send commands with `chat.command`
-    - user types !whom @user
-    - my bot message JukeBot in a private chat and check if guess was correct
-    - I can tell the user to guess again, whatever, 3 guesses, then reveal later? Something like that.
-    - Not much benefit to gain from it though I think, to be honest. But I now know I can do that.
-- Enzo used a slack app: Simple Poll.
-    - used an 'rich-embed' with buttons, like fancy emoji responses
-    - also something I can do
+*ps:* Since I can trigger Jukebot out of the public eye, I can create a custom !whom command that doesnt end the round right away!
+
