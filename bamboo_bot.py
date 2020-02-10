@@ -56,6 +56,16 @@ class Bamboo_Bot(Base_Bot):
             self.add_react('x')
             self.post_msg(f'Whoop, ting broke fam\n{e.args}')
 
+    def check_anniversaries(self):
+        d = self.get_anniversary_data()
+        if len(d['births']) > 0:
+            print('birthdays!')
+
+        if len(d['hires']) > 0:
+            print('hires!')
+
+        return
+
     def get_anniversary_data(self):
         n = datetime.now()
         b = []

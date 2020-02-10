@@ -1,6 +1,8 @@
 import os
 import slack
 from threading import Thread
+from datetime import datetime
+import time
 
 from whom_bot import Whom_Bot
 from leaderboard_bot import Leaderboard_Bot
@@ -52,5 +54,20 @@ else:
             handler(payload)
         return
 
-    # Thread(target=print('hi'), daemon=True).start()
+    def cron_job(): # 7.45pm UTC == 8.45am NZT
+        timeout = 60 * 60
+
+        while True:
+            if datetime.utcnow().hour > 17:
+                timeout = 60 * 15
+
+            if datetime.utcnow().hour == 19:
+                timeout = 60 * 5
+                if datetime.utcnow().minute > 35:
+                    bamboo_bot.check_anniversaries()
+                    timeout = 60 * 60 * 20 # after done, sleep for 20 hrs
+
+            time.sleep(timeout)
+
+    Thread(target=cron_job, daemon=True).start()
     slack.RTMClient(token=token).start()
