@@ -1,10 +1,12 @@
 import os
+import json
 from datetime import datetime
 from PyBambooHR.PyBambooHR import PyBambooHR
 from base_bot import Base_Bot
 
 class Bamboo_Bot(Base_Bot):
     def __init__(self):
+        super(Bamboo_Bot, self).__init__()
         key = os.getenv('BAMBOO_KEY')
         org = os.getenv('BAMBOO_ORG')
         self.client = PyBambooHR(api_key=key, subdomain=org)
@@ -54,3 +56,45 @@ class Bamboo_Bot(Base_Bot):
             self.add_react('x')
             self.post_msg(f'Whoop, ting broke fam\n{e.args}')
 
+    def get_anniversary_data(self):
+        n = datetime.now()
+        b = []
+        h = []
+        b_employees = self.client.get_employee_directory()
+        _, r_entries = self.redis.scan(0, 'bamboo:*', count=1000)
+
+        print(f'{len(b_employees)} from bamboo')
+        print(f'{len(r_entries)} from redis')
+
+        r_ids = [r.decode('utf8').replace('bamboo:', '') for r in r_entries]
+        new_emps = [e for e in b_employees if e['id'] not in r_ids]
+
+        if len(new_emps) > 0:
+            print(f'{len(new_emps)} new employees!')
+            for e in new_emps:
+                d = self.client.get_employee(e['id'], ['birthday', 'fullName1', 'hireDate'])
+                print(f'saving {d["fullName1"]}')
+                self.redis.set(f'bamboo:{e["id"]}', json.dumps(d))
+                r_ids.append(e['id'])
+
+        for i in r_ids:
+            e = self.redis.get(f'bamboo:{i}')
+            e = json.loads(e)
+            if e['birthday']:
+                bday, bmonth = e['birthday'].split('-')
+                if bday == n.day and bmonth == n.month:
+                    b.append(e['fullName1'])
+            
+            if e['hireDate']:
+                hyear, hmonth, hday = e['hireDate'].split('-')
+                if hday == n.day and hmonth == n.month:
+                    h.append({
+                        'name': e['fullName1'],
+                        'years': n.year - hyear
+                    })
+
+        print({ 'births': b, 'hires': h })
+        return { 'births': b, 'hires': h }
+
+# if __name__ == '__main__':
+#     Bamboo_Bot().get_anniversary_data()

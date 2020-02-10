@@ -1,5 +1,7 @@
 import os
 import slack
+from threading import Thread
+
 from whom_bot import Whom_Bot
 from leaderboard_bot import Leaderboard_Bot
 from banger_bot import Banger_Bot
@@ -22,7 +24,7 @@ else:
         os.environ['LB_CMD']: leaderboard_bot.handle_user_leaderboard_cmd,
         os.environ['SONG_LB_CMD']: leaderboard_bot.handle_song_leaderboard_cmd,
         os.environ['BANGER_CMD']: banger_bot.handle_banger_cmd,
-        os.environ['TIMEOFF_CMD']: bamboo_bot.handle_timeoff_cmd,
+        # os.environ['TIMEOFF_CMD']: bamboo_bot.handle_timeoff_cmd,
     }
 
     @slack.RTMClient.run_on(event='message')
@@ -50,4 +52,5 @@ else:
             handler(payload)
         return
 
+    # Thread(target=print('hi'), daemon=True).start()
     slack.RTMClient(token=token).start()
