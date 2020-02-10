@@ -80,20 +80,26 @@ class Bamboo_Bot(Base_Bot):
         for i in r_ids:
             e = self.redis.get(f'bamboo:{i}')
             e = json.loads(e)
+
             if e['birthday']:
                 bday, bmonth = e['birthday'].split('-')
-                if bday == n.day and bmonth == n.month:
-                    b.append(e['fullName1'])
+                if bday and bmonth:
+                    if bday == n.day and bmonth == n.month:
+                        b.append({
+                            'name': e['fullName1']
+                        })
             
             if e['hireDate']:
                 hyear, hmonth, hday = e['hireDate'].split('-')
-                if hday == n.day and hmonth == n.month:
-                    h.append({
-                        'name': e['fullName1'],
-                        'years': n.year - hyear
-                    })
+                if hyear and hmonth and hday:
+                    if hday == n.day and hmonth == n.month:
+                        h.append({
+                            'name': e['fullName1'],
+                            'years': n.year - hyear
+                        })
 
-        print({ 'births': b, 'hires': h })
+        print(f'birthdays: {b}')
+        print(f'hire-anniversaries: {h}')
         return { 'births': b, 'hires': h }
 
 # if __name__ == '__main__':
