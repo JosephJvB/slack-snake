@@ -14,6 +14,7 @@ class Bamboo_Bot(Base_Bot):
         self.client = PyBambooHR(api_key=key, subdomain=org)
 
     def handle_timeoff_cmd(self, payload):
+        return print('handle_timeoff_cmd NOT ENABLED')
         self.msg_payload = payload
         u_id = payload['data']['user']
         slack_data = self.get_user_by_id(u_id)
@@ -33,6 +34,7 @@ class Bamboo_Bot(Base_Bot):
         return
 
     def request_sickleave_today(self, bamboo_user):
+        return print('request_sickleave_today NOT ENABLED')
         amount = '8' if datetime.now().hour < 12 else '4'
         today = datetime.today().strftime('%Y-%m-%d')
         sick_id = os.getenv('SICKLEAVE_ID')
