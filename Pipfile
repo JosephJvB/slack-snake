@@ -10,7 +10,7 @@ pylint = "*"
 redis = "*"
 requests = "*"
 slackclient = "*"
-pybamboohr = {editable = true,path = "./../PyBambooHR"}
+pybamboohr = "*"
 
 [requires]
 python_version = "3.7"
