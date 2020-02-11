@@ -26,7 +26,7 @@ else:
         os.environ['LB_CMD']: leaderboard_bot.handle_user_leaderboard_cmd,
         os.environ['SONG_LB_CMD']: leaderboard_bot.handle_song_leaderboard_cmd,
         os.environ['BANGER_CMD']: banger_bot.handle_banger_cmd,
-        # os.environ['TIMEOFF_CMD']: bamboo_bot.handle_timeoff_cmd,
+        # os.environ['TIMEOFF_CMD']: bamboo_bot.handle_timeoff_cmd, not ready for this one
     }
 
     @slack.RTMClient.run_on(event='message')
@@ -56,17 +56,19 @@ else:
 
     def cron_job(): # 7.45pm UTC == 8.45am NZT
         timeout = 60 * 60
-
         while True:
-            if datetime.utcnow().hour > 17:
+            n = datetime.utcnow() 
+            print(f'cronjob @ {n}')
+            if n.hour > 17:
                 timeout = 60 * 15
 
-            if datetime.utcnow().hour == 19:
+            if n.hour == 19:
                 timeout = 60 * 5
                 if datetime.utcnow().minute > 35:
                     bamboo_bot.check_anniversaries()
                     timeout = 60 * 60 * 20 # after done, sleep for 20 hrs
 
+            print(f'cronjob timeout for {timeout}')
             time.sleep(timeout)
 
     Thread(target=cron_job, daemon=True).start()

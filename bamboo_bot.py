@@ -2,6 +2,8 @@ import os
 import json
 from datetime import datetime
 from PyBambooHR.PyBambooHR import PyBambooHR
+import slack
+
 from base_bot import Base_Bot
 
 class Bamboo_Bot(Base_Bot):
@@ -58,12 +60,23 @@ class Bamboo_Bot(Base_Bot):
 
     def check_anniversaries(self):
         d = self.get_anniversary_data()
+        if len(d['births']) == 0 and len(d['hires']) == 0:
+            print('No anniversaries today')
+            return
+
+        c = slack.WebClient(token=os.getenv('BOT_TOKEN'))
+        chan = os.getenv('ANNIVERSARY_CHANNEL')
+
         if len(d['births']) > 0:
-            print('birthdays!')
+            b = [f'*{i}*' for i in d['births']]
+            bt = f'Happy birthday to {", ".join(b)}!'
+            c.chat_postMessage(channel=chan, text=bt)
 
         if len(d['hires']) > 0:
-            print('hires!')
-
+            ht = ''
+            for h in d['hires']:
+                ht += f'Congratulations to *{h["name"]}* who is celebrating {h["years"]} year(s) with JBA\n'
+            c.chat_postMessage(channel=chan, text=ht)
         return
 
     def get_anniversary_data(self):
@@ -95,9 +108,7 @@ class Bamboo_Bot(Base_Bot):
                 bday, bmonth = e['birthday'].split('-')
                 if bday and bmonth:
                     if bday == n.day and bmonth == n.month:
-                        b.append({
-                            'name': e['fullName1']
-                        })
+                        b.append(e['fullName1'])
             
             if e['hireDate']:
                 hyear, hmonth, hday = e['hireDate'].split('-')
@@ -110,7 +121,5 @@ class Bamboo_Bot(Base_Bot):
 
         print(f'birthdays: {b}')
         print(f'hire-anniversaries: {h}')
-        return { 'births': b, 'hires': h }
 
-# if __name__ == '__main__':
-#     Bamboo_Bot().get_anniversary_data()
+        return { 'births': b, 'hires': h }
