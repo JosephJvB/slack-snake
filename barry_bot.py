@@ -40,23 +40,31 @@ class Barry_Bot(Base_Bot):
 
     def handle_barry_cmd(self, p):
         self.msg_payload = p
-        # find user by id in message
         args = p['data']['text'].split(' ')
-        if len(args) < 1: # todo: barry without userid returns current barry
+        if len(args) < 2: # todo: barry without userid returns current barry
             return
-        barry_id = args[1].replace('<@', '').replace('>', '')
+        barry_id = args[1].replace('<@', '').replace('>', '').split('|')[0] # get user id from message !barry @user
         prev = self.redis.get(_prefix)
-        if prev:
+        self.redis.set(_prefix, barry_id) # set new barry
+        if prev: # handle prev
+            prev = prev.decode('utf8')
             self.redis.set(_prefix, barry_id)
-            p_user = self.get_user(prev)
-            p_username = 'wip'
+            p_user = self.try_get_user(prev)
+            p_username = p_user['profile']['real_name']
+            if not p_user['profile']['display_name']:
+                p_username = p_user['profile']['first_name']
+            if not p_user['profile']['first_name']:
+                p_username = p_username = p_user['profile']['real_name']
+            self.set_display_name(prev, p_username)
 
-        updated_name = '[BARRY]' # handle new barry
-            u = self.get_user(user_id)
-            if u.display_name:
-                updated_name += u.display_name
-            elif u.first_name:
-                updated_name += u.user_first_name
-            elif u.real_name:
-                updated_name += u.user_real_name
+        updated_name = '[BARRY]' # update new barry name
+        print(barry_id)
+        u = self.try_get_user(barry_id)
+        if u['profile']['display_name']:
+            updated_name += u['profile']['display_name']
+        elif u['profile']['first_name']:
+            updated_name += u['profile']['first_name']
+        elif u['profile']['real_name']:
+            updated_name += u['profile']['real_name']
+        self.set_display_name(barry_id, updated_name)
         return

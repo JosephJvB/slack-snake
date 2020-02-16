@@ -3,6 +3,7 @@ import slack
 from whom_bot import Whom_Bot
 from leaderboard_bot import Leaderboard_Bot
 from banger_bot import Banger_Bot
+from barry_bot import Barry_Bot
 
 token = os.environ['BOT_TOKEN']
 
@@ -13,6 +14,7 @@ else:
     whom_bot = Whom_Bot()
     leaderboard_bot = Leaderboard_Bot()
     banger_bot = Banger_Bot()
+    barry_bot = Barry_Bot()
 
     CMDS = {
         os.environ['POINTS_CMD']: leaderboard_bot.handle_user_points_cmd,
@@ -20,6 +22,7 @@ else:
         os.environ['LB_CMD']: leaderboard_bot.handle_user_leaderboard_cmd,
         os.environ['SONG_LB_CMD']: leaderboard_bot.handle_song_leaderboard_cmd,
         os.environ['BANGER_CMD']: banger_bot.handle_banger_cmd,
+        '!barry': barry_bot.handle_barry_cmd
     }
 
     @slack.RTMClient.run_on(event='message')

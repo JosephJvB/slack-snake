@@ -52,6 +52,13 @@ class Base_Bot(object):
             res = self.msg_payload['web_client'].users_info(user=user_id)
             return res['user']
 
+    def try_get_user(self, u_id):
+        try:
+            return self.get_user(u_id)
+        except:
+            print(f'user not found with id = {u_id}')
+            return None
+
     def send_cmd(self, cmd, channel, args=None):
         u = 'https://slack.com/api/chat.command'
         d = {
@@ -64,13 +71,12 @@ class Base_Bot(object):
         return
 
     def set_display_name(self, user_id, txt):
+        return # issue with token permissions atm
         if self.msg_payload is None:
             print('update_user_name: msg_payload not set!')
         else:
-            d = {
-                'name': 'display_name',
-                'value': txt
-            }
-            self.msg_payload['web_client'].users_profile_set(d)
+            self.msg_payload['web_client'].users_profile_set(
+                name='display_name',
+                value=txt)
             return
 
