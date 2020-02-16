@@ -4,7 +4,7 @@ send command to bot
 lookup prev barry, if exist: 
     - remove prev barry from user.display_name
     - remove prev barry from redis
-- add user
+- add user to redis
 Update users name as [BARRY] "name"
 
 api to update users name on slack
@@ -12,13 +12,6 @@ https://github.com/slackapi/python-slackclient/blob/master/slack/web/client.py#L
 https://api.slack.com/methods/users.profile.set
 
 call set profile with body:
-updated_name = '[BARRY] '
-if user.display_name:
-    updated_name += user.display_name
-elif user.first_name:
-    updated_name += user.user.first_name
-elif user.real_name:
-    updated_name += user.user.real_name
 {
     'token': 'Bearer <token>', try without this first
     'name': 'display_name'
@@ -35,8 +28,6 @@ _prefix = '_barry:'
 class Barry_Bot(Base_Bot):
     def __init__(self):
         super(Barry_Bot, self).__init__()
-        self.banger = None
-        self.banged_by = []
 
     def handle_barry_cmd(self, p):
         self.msg_payload = p
@@ -48,12 +39,9 @@ class Barry_Bot(Base_Bot):
         self.redis.set(_prefix, barry_id) # set new barry
         if prev: # handle prev
             prev = prev.decode('utf8')
-            self.redis.set(_prefix, barry_id)
             p_user = self.try_get_user(prev)
             p_username = ''
-            if p_user['profile'].get('display_name'):
-                p_username = p_user['profile']['display_name']
-            elif p_user['profile'].get('first_name'):
+            if p_user['profile'].get('first_name'):
                 p_username = p_username = p_user['profile']['first_name']
             else:
                 p_username = p_user['profile'].get('real_name')
