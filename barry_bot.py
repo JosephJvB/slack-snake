@@ -41,8 +41,10 @@ class Barry_Bot(Base_Bot):
             prev = prev.decode('utf8')
             p_user = self.try_get_user(prev)
             p_username = ''
-            if p_user['profile'].get('first_name'):
-                p_username = p_username = p_user['profile']['first_name']
+            if p_user['profile'].get('display_name'):
+                p_username = p_user['profile']['display_name'].replace('[BARRY] ', '')
+            elif p_user['profile'].get('first_name'):
+                p_username = p_user['profile']['first_name']
             else:
                 p_username = p_user['profile'].get('real_name')
             self.set_display_name(prev, p_username)
