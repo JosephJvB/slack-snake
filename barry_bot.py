@@ -50,21 +50,24 @@ class Barry_Bot(Base_Bot):
             prev = prev.decode('utf8')
             self.redis.set(_prefix, barry_id)
             p_user = self.try_get_user(prev)
-            p_username = p_user['profile']['real_name']
-            if not p_user['profile']['display_name']:
-                p_username = p_user['profile']['first_name']
-            if not p_user['profile']['first_name']:
-                p_username = p_username = p_user['profile']['real_name']
+            p_username = ''
+            if p_user['profile'].get('display_name'):
+                p_username = p_user['profile']['display_name']
+            elif p_user['profile'].get('first_name'):
+                p_username = p_username = p_user['profile']['first_name']
+            else:
+                p_username = p_user['profile'].get('real_name')
             self.set_display_name(prev, p_username)
 
-        updated_name = '[BARRY]' # update new barry name
-        print(barry_id)
+        updated_name = '[BARRY] ' # update new barry name
         u = self.try_get_user(barry_id)
-        if u['profile']['display_name']:
+        print(u)
+        if u['profile'].get('display_name'):
             updated_name += u['profile']['display_name']
-        elif u['profile']['first_name']:
+        elif u['profile'].get('first_name'):
             updated_name += u['profile']['first_name']
-        elif u['profile']['real_name']:
-            updated_name += u['profile']['real_name']
+        else:
+            updated_name += u['profile'].get('real_name')
         self.set_display_name(barry_id, updated_name)
+        print(f'set new barry: {updated_name}')
         return
